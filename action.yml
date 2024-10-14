@@ -1,0 +1,33 @@
+name: 's3-multibranch-deploy-preview'
+
+description: 'Deploy preview of your frontend to S3 bucket for each branch in repository'
+
+inputs:
+  aws_region:
+    description: 'AWS region of the S3 bucket'
+    default: 'us-east-1'
+    required: true
+  aws_bucket:
+    description: 'Name of the S3 bucket'
+    default: ''
+    required: true
+  folder:
+    description: 'Folder to be deployed in S3 bucket'
+    default: './site'
+    required: true
+  max_branch_deployed:
+    description: 'Maximum number of branches to be deployed'
+    default: '50'
+    required: false
+  max_commit_per_branch_deployed:
+    description: 'Maximum number of commit per branch to be deployed'
+    default: '10'
+    required: false
+
+outputs:
+  preview_url:
+    description: 'URL of the deployed preview'
+
+runs:
+  using: docker
+  image: 'Dockerfile'
