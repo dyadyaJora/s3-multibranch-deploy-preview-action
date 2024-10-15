@@ -24,8 +24,8 @@ function replace_special_characters() {
 
 function deploy {
     if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ -z "$AWS_REGION" ]; then
-    echo "Error: AWS credentials are not set."
-    exit 1
+        echo "Error: AWS credentials are not set."
+        exit 1
     fi
 
     aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
