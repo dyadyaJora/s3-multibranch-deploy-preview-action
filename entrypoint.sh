@@ -23,10 +23,8 @@ function replace_special_characters() {
 }
 
 function deploy {
-    ls -la 
-    ls -la /github/workspace
-    if [ ! -f $INPUT_FOLDER ]; then
-        echo "Error: Directory $INPUT_FOLDER  does not exist. Nothing to deploy."
+    if [ ! -d "$INPUT_FOLDER" ]; then
+        echo "Error: Directory $INPUT_FOLDER does not exist. Nothing to deploy."
         exit 1
     fi
     escaped_branch_name=$(replace_special_characters "$BRANCH_NAME")
