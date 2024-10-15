@@ -23,6 +23,8 @@ function replace_special_characters() {
 }
 
 function deploy {
+    ls -la 
+    ls -la /github/workspace
     if [ ! -f $INPUT_FOLDER ]; then
         echo "Error: Directory $INPUT_FOLDER  does not exist. Nothing to deploy."
         exit 1
