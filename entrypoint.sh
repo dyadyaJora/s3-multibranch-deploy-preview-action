@@ -77,10 +77,11 @@ function cleanup_commit_folders {
 }
 
 echo "=== STARTING ==="
-echo "Branch: $BRANCH_NAME"
+echo "GITHUB_REF: $GITHUB_REF"
 
 echo "=== Setting up version ==="
 setup_verion
+echo "Branch: $BRANCH_NAME"
 
 echo "=== Deploying ==="
 deploy
