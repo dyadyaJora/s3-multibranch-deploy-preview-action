@@ -52,6 +52,4 @@ runs:
   - name: Deploy preview
     id: deploy
     shell: bash
-    run: |
-      chmod +x entrypoint.sh
-      ./entrypoint.sh
+    run: entrypoint.sh
