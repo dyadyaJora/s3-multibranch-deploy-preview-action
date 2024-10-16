@@ -37,6 +37,7 @@ runs:
   steps:
   - name: Download source
     uses: actions/checkout@v3
+
   - name: configure AWS credentials
     id: creds
     uses: aws-actions/configure-aws-credentials@v1
@@ -44,6 +45,13 @@ runs:
       role-to-assume: ${{ inputs.aws_assume_role }}
       role-session-name: samplerolesession
       aws-region: ${{ inputs.aws_region }}
+
+  - name: Set GitHub Path
+    run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+    shell: bash
+    env:
+      GITHUB_ACTION_PATH: ${{ github.action_path }}
+
   - name: Deploy preview
     id: deploy
     shell: bash
