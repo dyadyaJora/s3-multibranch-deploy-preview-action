@@ -43,7 +43,7 @@ function deploy {
     aws s3 sync $INPUT_FOLDER $S3_URL || exit 1
 
     preview_url="https://$INPUT_AWS_BUCKET.s3.amazonaws.com/$escaped_branch_name/$date_prefix$SHA_SHORT/index.html"
-    echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
+    echo "preview_url=$preview_url" >> $GITHUB_ENV
 }
 
 function s3branchrotate {
