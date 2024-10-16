@@ -35,9 +35,6 @@ outputs:
 runs:
   using: composite
   steps:
-  - name: Download source
-    uses: actions/checkout@v3
-
   - name: configure AWS credentials
     id: creds
     uses: aws-actions/configure-aws-credentials@v1
@@ -55,7 +52,4 @@ runs:
   - name: Deploy preview
     id: deploy
     shell: bash
-    run: |
-        echo "::group::Deploying preview to AWS S3"
-        bash entrypoint.sh
-        echo "::endgroup::"
+    run: entrypoint.sh
