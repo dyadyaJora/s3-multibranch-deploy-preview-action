@@ -7,6 +7,10 @@ inputs:
     description: 'AWS region of the S3 bucket'
     default: 'us-east-1'
     required: true
+  aws_assume_role:
+    description: 'ARN of the role to be assumed'
+    default: ''
+    required: true
   aws_bucket:
     description: 'Name of the S3 bucket'
     default: ''
@@ -29,5 +33,21 @@ outputs:
     description: 'URL of the deployed preview'
 
 runs:
-  using: docker
-  image: 'Dockerfile'
+  using: composite
+  steps:
+  - name: Download source
+    uses: actions/checkout@v3
+  - name: configure AWS credentials
+    id: creds
+    uses: aws-actions/configure-aws-credentials@v1
+    with:
+      role-to-assume: ${{ inputs.aws_assume_role }}
+      role-session-name: samplerolesession
+      aws-region: ${{ inputs.aws_region }}
+  - name: Deploy preview
+    id: deploy
+    shell: bash
+    run: |
+        echo "::group::Deploying preview to AWS S3"
+        $GITHUB_ACTION_PATH/entrypoint.sh
+        echo "::endgroup::"
