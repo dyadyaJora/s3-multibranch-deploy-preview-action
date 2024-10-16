@@ -53,3 +53,9 @@ runs:
     id: deploy
     shell: bash
     run: entrypoint.sh
+    env:
+      INPUT_AWS_BUCKET: ${{ inputs.aws_bucket }}
+      INPUT_AWS_REGION: ${{ inputs.aws_region }}
+      INPUT_FOLDER: ${{ inputs.folder }}
+      INPUT_MAX_BRANCH_DEPLOYED: ${{ inputs.max_branch_deployed }}
+      INPUT_MAX_COMMIT_PER_BRANCH_DEPLOYED: ${{ inputs.max_commit_per_branch_deployed }}
