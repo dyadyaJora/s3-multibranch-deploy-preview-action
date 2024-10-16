@@ -49,5 +49,5 @@ runs:
     shell: bash
     run: |
         echo "::group::Deploying preview to AWS S3"
-        $GITHUB_ACTION_PATH/entrypoint.sh
+        bash entrypoint.sh
         echo "::endgroup::"
