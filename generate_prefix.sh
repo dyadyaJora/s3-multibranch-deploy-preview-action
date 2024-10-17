@@ -1,6 +1,7 @@
 #!/bin/bash
+ls -la
 
-. setup_version.sh
+. $GITHUB_ACTION_PATH/setup_version.sh
 
 setup_verion
 echo "$PREFIX"
