@@ -43,7 +43,7 @@ runs:
   - name: Generate prefix
     if: ${{ inputs.generate_prefix == 'true' }}
     id: prefix
-    run: ./entrypoint.sh prefix
+    run: "$GITHUB_ACTION_PATH/entrypoint.sh prefix"
     shell: bash
 
   - name: configure AWS credentials
