@@ -14,9 +14,11 @@ function setup_verion {
     # LATEST_VERSION_COMPARABLE=$(version $(git describe --tags $(git rev-list --tags --max-count=1) | sed s/^v// 2> /dev/null || echo '0'))
     if [ ! -z $INPUT_PREFIX ]; then
         # todo: validate prefix
+        echo "Using prefix: $INPUT_PREFIX"
         PREFIX=$INPUT_PREFIX
         return
     fi
+    echo "Generating prefix"
     BRANCH_NAME=${GITHUB_REF#refs/heads/}
     SHA_SHORT=$(git rev-parse --short HEAD)
     escaped_branch_name=$(replace_special_characters "$BRANCH_NAME")
@@ -91,11 +93,11 @@ function cleanup_commit_folders {
     fi
 }
 
-if [ "prefix" == $1 ]; then
+if [ ! -z "$1" ] && [ "prefix" == "$1" ]; then
     echo "=== Generating prefix ==="
     setup_verion
     echo "Generated: $PREFIX"
-    echo prefix=$PREFIX >> $GITHUB_OUTPUT
+    echo prefix="$PREFIX" >> $GITHUB_OUTPUT
     exit 0
 fi
 
