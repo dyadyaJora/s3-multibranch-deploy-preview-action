@@ -93,6 +93,7 @@ function cleanup_commit_folders {
 
 if [ "prefix" == $1 ]; then
     echo "=== Generating prefix ==="
+    setup_verion
     echo "Generated: $PREFIX"
     echo prefix=$PREFIX >> $GITHUB_OUTPUT
     exit 0
