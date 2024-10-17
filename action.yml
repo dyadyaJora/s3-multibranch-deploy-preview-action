@@ -40,6 +40,9 @@ outputs:
   preview_url:
     description: 'URL of the deployed preview'
     value: ${{ steps.deploy.outputs.preview_url }}
+  prefix:
+    description: 'Generated prefix'
+    value: ${{ steps.prefix.outputs.prefix }}
 
 runs:
   using: composite
