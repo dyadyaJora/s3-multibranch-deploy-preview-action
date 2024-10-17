@@ -97,7 +97,7 @@ if [ ! -z "$1" ] && [ "prefix" == "$1" ]; then
     echo "=== Generating prefix ==="
     setup_verion
     echo "Generated: $PREFIX"
-    echo prefix="$PREFIX" >> $GITHUB_OUTPUT
+    echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
     exit 0
 fi
 
