@@ -27,6 +27,10 @@ inputs:
     description: 'Maximum number of commit per branch to be deployed'
     default: '10'
     required: false
+  generate_prefix:
+    description: 'Generate prefix for each branch'
+    default: 'true'
+    required: false
 
 outputs:
   preview_url:
@@ -36,8 +40,15 @@ outputs:
 runs:
   using: composite
   steps:
+  - name: Generate prefix
+    if: ${{ inputs.generate_prefix == 'true' }}
+    id: prefix
+    run: ./entrypoint.sh prefix
+    shell: bash
+
   - name: configure AWS credentials
     id: creds
+    if: ${{ inputs.generate_prefix == 'false' }}
     uses: aws-actions/configure-aws-credentials@v1
     with:
       role-to-assume: ${{ inputs.aws_assume_role }}
@@ -45,6 +56,7 @@ runs:
       aws-region: ${{ inputs.aws_region }}
 
   - name: Set GitHub Path
+    if: ${{ inputs.generate_prefix == 'false' }}
     run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
     shell: bash
     env:
@@ -52,6 +64,7 @@ runs:
 
   - name: Deploy preview
     id: deploy
+    if: ${{ inputs.generate_prefix == 'false' }}
     shell: bash
     run: entrypoint.sh
     env:
@@ -60,3 +73,4 @@ runs:
       INPUT_FOLDER: ${{ inputs.folder }}
       INPUT_MAX_BRANCH_DEPLOYED: ${{ inputs.max_branch_deployed }}
       INPUT_MAX_COMMIT_PER_BRANCH_DEPLOYED: ${{ inputs.max_commit_per_branch_deployed }}
+      INPUT_PREFIX: ${{ steps.prefix.outputs.prefix }}

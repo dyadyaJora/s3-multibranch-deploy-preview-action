@@ -12,8 +12,16 @@ function setup_verion {
     # THIS_VERSION=$(cat version | sed s/^v//)
     # THIS_VERSION_COMPARABLE=$(version $(cat version | sed s/^v//))
     # LATEST_VERSION_COMPARABLE=$(version $(git describe --tags $(git rev-list --tags --max-count=1) | sed s/^v// 2> /dev/null || echo '0'))
+    if [ ! -z $INPUT_PREFIX ]; then
+        # todo: validate prefix
+        PREFIX=$INPUT_PREFIX
+        return
+    fi
     BRANCH_NAME=${GITHUB_REF#refs/heads/}
     SHA_SHORT=$(git rev-parse --short HEAD)
+    escaped_branch_name=$(replace_special_characters "$BRANCH_NAME")
+    date_prefix=$(date +%Y-%m-%d-%H-%M-%S_)
+    PREFIX=$escaped_branch_name/$date_prefix$SHA_SHORT
 }
 
 function replace_special_characters() {
@@ -36,13 +44,11 @@ function deploy {
         echo "Error: Directory $INPUT_FOLDER does not exist. Nothing to deploy."
         exit 1
     fi
-    escaped_branch_name=$(replace_special_characters "$BRANCH_NAME")
-    date_prefix=$(date +%Y-%m-%d-%H-%M-%S_)
-    S3_URL="s3://$INPUT_AWS_BUCKET/$escaped_branch_name/$date_prefix$SHA_SHORT/"
+    S3_URL="s3://$INPUT_AWS_BUCKET/$PREFIX/"
     echo "Uploading to $S3_URL"
     aws s3 sync $INPUT_FOLDER $S3_URL || exit 1
 
-    preview_url="https://$INPUT_AWS_BUCKET.s3.amazonaws.com/$escaped_branch_name/$date_prefix$SHA_SHORT/index.html"
+    preview_url="https://$INPUT_AWS_BUCKET.s3.amazonaws.com/$PREFIX/index.html"
     echo "preview_url=$preview_url" >> $GITHUB_OUTPUT
 }
 
@@ -84,6 +90,13 @@ function cleanup_commit_folders {
         echo "No need to remove versions."
     fi
 }
+
+if [ "prefix" == $1 ] then
+    echo "=== Generating prefix ==="
+    echo "Generated: $PREFIX"
+    echo prefix=$PREFIX >> $GITHUB_OUTPUT
+    exit 0
+fi
 
 echo "=== STARTING ==="
 echo "GITHUB_REF: $GITHUB_REF"
