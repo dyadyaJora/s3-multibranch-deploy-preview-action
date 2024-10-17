@@ -91,7 +91,7 @@ function cleanup_commit_folders {
     fi
 }
 
-if [ "prefix" == $1 ] then
+if [ "prefix" == $1 ]; then
     echo "=== Generating prefix ==="
     echo "Generated: $PREFIX"
     echo prefix=$PREFIX >> $GITHUB_OUTPUT
