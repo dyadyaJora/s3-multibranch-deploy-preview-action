@@ -27,6 +27,10 @@ inputs:
     description: 'Maximum number of commit per branch to be deployed'
     default: '10'
     required: false
+  prefix:
+    description: 'Prefix path for base url'
+    default: ''
+    required: false
   generate_prefix:
     description: 'Generate prefix for each branch'
     default: 'false'
@@ -73,4 +77,4 @@ runs:
       INPUT_FOLDER: ${{ inputs.folder }}
       INPUT_MAX_BRANCH_DEPLOYED: ${{ inputs.max_branch_deployed }}
       INPUT_MAX_COMMIT_PER_BRANCH_DEPLOYED: ${{ inputs.max_commit_per_branch_deployed }}
-      INPUT_PREFIX: ${{ steps.prefix.outputs.prefix }}
+      INPUT_PREFIX: ${{ inputs.prefix }}
