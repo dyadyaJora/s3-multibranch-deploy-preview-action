@@ -5,13 +5,13 @@ function version {
 }
 
 function setup_verion {
-    if [ ! -f version ]; then
-        echo "Error: File 'version' does not exist."
-        exit 1
-    fi
-    THIS_VERSION=$(cat version | sed s/^v//)
-    THIS_VERSION_COMPARABLE=$(version $(cat version | sed s/^v//))
-    LATEST_VERSION_COMPARABLE=$(version $(git describe --tags $(git rev-list --tags --max-count=1) | sed s/^v// 2> /dev/null || echo '0'))
+    # if [ ! -f version ]; then
+    #     echo "Error: File 'version' does not exist."
+    #     exit 1
+    # fi
+    # THIS_VERSION=$(cat version | sed s/^v//)
+    # THIS_VERSION_COMPARABLE=$(version $(cat version | sed s/^v//))
+    # LATEST_VERSION_COMPARABLE=$(version $(git describe --tags $(git rev-list --tags --max-count=1) | sed s/^v// 2> /dev/null || echo '0'))
     BRANCH_NAME=${GITHUB_REF#refs/heads/}
     SHA_SHORT=$(git rev-parse --short HEAD)
 }
