@@ -29,7 +29,7 @@ inputs:
     required: false
   generate_prefix:
     description: 'Generate prefix for each branch'
-    default: 'true'
+    default: 'false'
     required: false
 
 outputs:
