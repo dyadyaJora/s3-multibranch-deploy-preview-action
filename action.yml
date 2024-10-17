@@ -44,11 +44,6 @@ outputs:
 runs:
   using: composite
   steps:
-  - name: Generate prefix
-    if: ${{ inputs.generate_prefix == 'true' }}
-    id: prefix
-    run: generate_prefix.sh
-    shell: bash
 
   - name: configure AWS credentials
     id: creds
@@ -60,11 +55,16 @@ runs:
       aws-region: ${{ inputs.aws_region }}
 
   - name: Set GitHub Path
-    if: ${{ inputs.generate_prefix == 'false' }}
     run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
     shell: bash
     env:
       GITHUB_ACTION_PATH: ${{ github.action_path }}
+
+  - name: Generate prefix
+    if: ${{ inputs.generate_prefix == 'true' }}
+    id: prefix
+    run: generate_prefix.sh
+    shell: bash
 
   - name: Deploy preview
     id: deploy
