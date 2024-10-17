@@ -47,9 +47,9 @@ runs:
   - name: Generate prefix
     if: ${{ inputs.generate_prefix == 'true' }}
     id: prefix
-    run: "$GITHUB_ACTION_PATH/entrypoint.sh prefix"
+    run: |
+      echo "::set-output name=prefix::$GITHUB_ACTION_PATH/entrypoint.sh prefix"
     shell: bash
-
   - name: configure AWS credentials
     id: creds
     if: ${{ inputs.generate_prefix == 'false' }}

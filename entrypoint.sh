@@ -18,7 +18,6 @@ function setup_verion {
         PREFIX=$INPUT_PREFIX
         return
     fi
-    echo "Generating prefix"
     BRANCH_NAME=${GITHUB_REF#refs/heads/}
     SHA_SHORT=$(git rev-parse --short HEAD)
     escaped_branch_name=$(replace_special_characters "$BRANCH_NAME")
@@ -94,10 +93,8 @@ function cleanup_commit_folders {
 }
 
 if [ ! -z "$1" ] && [ "prefix" == "$1" ]; then
-    echo "=== Generating prefix ==="
     setup_verion
-    echo "Generated: $PREFIX"
-    echo "prefix=$PREFIX" >> $GITHUB_OUTPUT
+    echo "$PREFIX"
     exit 0
 fi
 
