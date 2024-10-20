@@ -1,6 +1,11 @@
 name: 's3-multibranch-deploy-preview'
 
-description: 'Deploy preview of your frontend to S3 bucket for each branch in repository'
+description: 'Easily deploy a preview of each branch of your static site to a single AWS S3 bucket'
+
+branding:
+  color: 'green'
+  icon: 'upload-cloud'
+
 
 inputs:
   aws_region:
