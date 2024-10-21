@@ -13,7 +13,7 @@ This action was build on top of:
 
 If you are building or planning to build your website and CI/CD process using the listed technologies, this action can significantly automate the deployment of your previews.
 
-The action allows you to deploy your site's content per branch, commit, or pull request in a hierarchical structure and generate a preview link in the format http://{bucketOrigin}/{branchName}/{commitHash}/your.html.
+The action allows you to deploy your site's content per branch, commit, or pull request in a hierarchical structure and generate a preview link in the format http://{bucketOrigin}/{branchName}/{commitHash}/your.html. For pull requests preview link could be added in comment if `github_token` input would be provided to action and this token would have right permissions to write to PR.
 
 This application uses its configuration file .branches to track the automatically uploaded content.
 
@@ -46,6 +46,8 @@ Current examples of usage could be found for:
 | `max_commit_per_branch_deployed` | `10`                    | Maximum number of commits per branch to be deployed. Default is `10`.                |
 | `prefix`                         | `my-prefix`             | Prefix path for the base URL of the deployed site.                                   |
 | `generate_prefix`                | `true`                  | Whether to generate a prefix for each branch. Default is `false`.                    |
+| `enable_comment`                 | `true`                  | Flag to enable comments with preview link to PRs. Default is `true`.                    |
+| `github_token`                   | `string`                | GitHub token, requried to create PR comments with generated preview URL. Required when `enable_comment` is `true`                     |
 
 ### Output Parameters
 
