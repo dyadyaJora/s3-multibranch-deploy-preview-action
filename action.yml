@@ -96,7 +96,7 @@ runs:
       INPUT_PREFIX: ${{ inputs.prefix }}
 
   - name: Post comment to PR
-    if: ${{ inputs.enable_comment == 'true' && github.event_name == 'pull_request' }}
+    if: ${{ inputs.generate_prefix == 'false' && inputs.enable_comment == 'true' && github.event_name == 'pull_request' }}
     uses: actions/github-script@v3
     with:
       github-token: ${{ inputs.github_token }}
