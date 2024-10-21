@@ -44,6 +44,10 @@ inputs:
     description: 'Enable comment to PR'
     default: 'true'
     required: false
+  github_token:
+    description: 'GitHub token, requried to create PR comments with generated preview URL'
+    default: ''
+    required: false
 
 outputs:
   preview_url:
@@ -91,3 +95,16 @@ runs:
       INPUT_MAX_COMMIT_PER_BRANCH_DEPLOYED: ${{ inputs.max_commit_per_branch_deployed }}
       INPUT_PREFIX: ${{ inputs.prefix }}
 
+  - name: Post comment to PR
+    if: ${{ inputs.enable_comment == 'true' && github.event_name == 'pull_request' }}
+    uses: actions/github-script@v3
+    with:
+      github-token: ${{ inputs.github_token }}
+      script: |
+        const shortSha = context.sha.substring(0, 7);
+        github.issues.createComment({
+          issue_number: context.issue.number,
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          body: `✅ Preview deployed at ${{ steps.deploy.outputs.preview_url }} successfully for revision ${shortSha} 🚀`
+        })
