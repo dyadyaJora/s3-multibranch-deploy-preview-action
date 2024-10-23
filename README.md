@@ -4,6 +4,79 @@
 
 This is simple composite Github Action that is designed to deploy previews of branches to single Amazon S3 bucket, enabling multi-branch deployment workflows with logrotate of stale versions and easily managed CI\CD for your fronted projects. This action enables you to deploy multiple versions of your site, with each version corresponding to a different branch in your repository. It ensures that the latest commits are deployed, allowing you to track changes and compare different versions seamlessly.
 
+## Usage
+
+### Simple one step usage
+
+There is simple way to use action with required arguments `aws_region`, `aws_assume_role`, `aws_bucket`, `folder`.
+
+```yaml
+steps:
+#...
+
+# Build your site with "npm run build" or the same command
+- name: Build site
+  run: npm run build
+
+# Run action with minimal required argumetns
+- name: Deploy
+  id: deploy
+  uses: dyadyaJora/s3-multibranch-deploy-preview@main
+  with:
+    aws_region: "us-east-1" # your AWS region
+    aws_assume_role: "${{ secrets.ASSUME_ROLE }}" # AWS IAM Role with access to bucket
+    aws_bucket: "my-site-bucket-name" # bucket for site
+    folder: "build" # folder with build files
+
+# Now deployed version is available by outputs "${{steps.deploy.outputs.preview_url}}"
+- name: Print link
+    run: |
+    echo "Docs deploy is available at ${{steps.deploy.outputs.preview_url}}"
+
+```
+
+### Usage with prefix pregeneration and PR comments
+
+In some cases it is required to build static site with pregenerated prefix and then use it prefix and then create comment with preview link.
+
+```yaml
+#...
+
+# this permissions is required to allow create comments in requests
+permissions:
+  issues: write
+  pull-requests: write
+steps:
+# ...
+- name: Generate prefix
+  id: prefix
+  uses: dyadyaJora/s3-multibranch-deploy-preview@main
+  with:
+    generate_prefix: true
+
+- name: Build site
+  run: npm run build --if-present
+  env:
+    BASE_URL: "${{ steps.prefix.outputs.prefix }}"
+
+- name: Deploy
+  id: deploy
+  uses: dyadyaJora/s3-multibranch-deploy-preview@main
+  with:
+    aws_region: "${{ env.AWS_REGION }}"
+    aws_assume_role: "${{ secrets.ASSUME_ROLE }}"
+    aws_bucket: "${{ env.BUCKET_NAME }}"
+    prefix: ${{ steps.prefix.outputs.prefix }}
+    folder: "build"
+    github_token: "${{ secrets.GITHUB_TOKEN }}"
+    enable_comment: "true"
+
+- name: Print preview link
+  run: |
+    echo "Docs deploy is available at ${{steps.deploy.outputs.preview_url}}"
+# ...
+```
+
 ## Key concepts
 
 This action was build on top of:
