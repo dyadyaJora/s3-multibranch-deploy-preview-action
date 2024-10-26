@@ -1,6 +1,6 @@
-name: 's3-multibranch-deploy-preview'
+name: 'AWS S3 multibranch deploy preview'
 
-description: 'Easily deploy a preview of each branch of your static site to a single AWS S3 bucket'
+description: '🚀 Easily deploy a preview of each branch of your static site to a single AWS S3 bucket'
 
 branding:
   color: 'green'
