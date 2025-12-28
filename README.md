@@ -1,5 +1,7 @@
 # s3-multibranch-deploy-preview
 
+> **Disclaimer:** In most cases, **AWS Amplify** is a better and recommended choice for multi-branch development and preview deployments, as it provides built-in support for branch-based environments and preview workflows. This GitHub Action is intended only for limited use cases where Amplify cannot be used, such as deploying branch previews to **S3 accessible exclusively within private AWS VPC networks**.
+
 ## Intro
 
 This is simple composite Github Action that is designed to deploy previews of branches to single Amazon S3 bucket, enabling multi-branch deployment workflows with logrotate of stale versions and easily managed CI\CD for your fronted projects. This action enables you to deploy multiple versions of your site, with each version corresponding to a different branch in your repository. It ensures that the latest commits are deployed, allowing you to track changes and compare different versions seamlessly.
